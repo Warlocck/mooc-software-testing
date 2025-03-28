@@ -1,28 +1,29 @@
 package tudelft.caesarshift;
-
+ //EJERCICIO 3 - ANDRE HUAROC CORRECCION DEL APPEND
 public class CaesarShiftCipher {
+     public static String CaesarShiftCipher(String message, int shift) {
+         if (message == null) return "invalid";
 
-    public String CaesarShiftCipher(String message, int shift){
-        StringBuilder sb = new StringBuilder();
-        char currentChar;
-        int length = message.length();
+         StringBuilder result = new StringBuilder();
+         shift = shift % 26;
 
-        shift = shift%26;
+         for (int i = 0; i < message.length(); i++) {
+             char c = message.charAt(i);
 
-        for(int i = 0; i < length; i++){
-            currentChar = message.charAt(i);
-           
-            sb.append(currentChar);
-            if (currentChar > 'z' || currentChar < 'a') {
-                return "invalid";
-            } else if ((char) (currentChar + shift) > 'z') {
-                currentChar = (char) (currentChar - 26);
-            } else if ((char) (currentChar + shift) < 'a'){
-                currentChar = (char) (currentChar + 26);
-            }
-            sb.append((char) (currentChar + shift));
-        }
-
-        return sb.toString();
-    }
+             if (c == ' ') {
+                 result.append(' ');
+             } else if (c >= 'a' && c <= 'z') {
+                 int originalAlphabetPos = c - 'a';
+                 int newAlphabetPos = (originalAlphabetPos + shift) % 26;
+                 if (newAlphabetPos < 0) {
+                     newAlphabetPos += 26;
+                 }
+                 char newChar = (char) ('a' + newAlphabetPos);
+                 result.append(newChar);
+             } else {
+                 return "invalid";
+             }
+         }
+         return result.toString();
+     }
 }
